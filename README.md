@@ -1,69 +1,103 @@
-# React + TypeScript + Vite
+# 🤖 LLM Offline Browser
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A **fully offline** Large Language Model (LLM) chat application that runs entirely in your web browser. No servers, no APIs, no internet required after initial model download - just pure client-side AI!
 
-Currently, two official plugins are available:
+![React](https://img.shields.io/badge/React-19.1.0-blue?logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-blue?logo=typescript)
+![WebLLM](https://img.shields.io/badge/WebLLM-0.2.79-green)
+![Vite](https://img.shields.io/badge/Vite-7.0.0-purple?logo=vite)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## Expanding the ESLint configuration
+- 🌐 **100% Browser-based** - No server required, runs entirely in your browser
+- 🔒 **Complete Privacy** - All conversations stay on your device
+- 📱 **Cross-platform** - Works on any device with a modern browser
+- 🚀 **Multiple Models** - Choose from TinyLlama, Phi-3.5 Mini, and Llama 3.2 1B
+- 💾 **Smart Caching** - Models are cached locally for instant loading
+- 🔄 **Auto-retry Logic** - Handles network issues and rate limiting gracefully
+- 📊 **Real-time Progress** - See model download and loading progress
+- 🎨 **Clean Interface** - Modern, responsive design
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Quick Start
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
+- Node.js 18+ 
+- Modern browser (Chrome, Edge, Firefox)
+- 4GB+ RAM recommended
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+### Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/PalakSimform/LLM-Offline-Browser.git
+   cd LLM-Offline-Browser
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+
+4. **Open your browser**
+   - Navigate to `http://localhost:5173`
+   - Select a model from the dropdown
+   - Start chatting!
+
+## 🏗️ Build for Production
+
+```bash
+# Build the application
+npm run build
+
+# Preview the production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🤖 Available Models
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Model | Size | Description | Best For |
+|-------|------|-------------|----------|
+| **TinyLlama 1.1B** | ~2GB | Fastest, most reliable | Quick responses, testing |
+| **Phi-3.5 Mini** | ~4GB | Balanced performance | General conversations |
+| **Llama 3.2 1B** | ~2GB | Good quality, compact | Quality responses |
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
+## 💡 How It Works
+
+1. **Model Selection** - Choose your preferred LLM from the dropdown
+2. **Automatic Download** - Models are downloaded from GitHub and cached locally
+3. **Browser Inference** - WebLLM runs the model using WebAssembly and WebGPU
+4. **Local Storage** - Everything is stored in your browser's cache
+5. **Offline Ready** - Once downloaded, works completely offline
+
+## 🛠️ Technical Architecture
+
+- **Frontend**: React 19 with TypeScript
+- **AI Engine**: WebLLM (MLC-AI) for browser-based inference
+- **Build Tool**: Vite 7 with optimized configuration
+- **Storage**: Browser Cache API + IndexedDB for model persistence
+- **Styling**: Inline styles with responsive design
+
+## 🔧 Configuration
+
+The application is configured for optimal WebLLM performance:
+
+```typescript
+// vite.config.ts
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    headers: {
+      'Cross-Origin-Embedder-Policy': 'credentialless',
+      'Cross-Origin-Opener-Policy': 'same-origin',
     },
   },
-])
+  optimizeDeps: {
+    exclude: ['@mlc-ai/web-llm'],
+  },
+})
 ```
